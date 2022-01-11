@@ -1,0 +1,15 @@
+HELP.md
+target/
+resources/
+webapp/
+.mvn
+mvnw
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+Config.*
+*.cmd
