@@ -48,6 +48,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Response addQuoteCollection(String quotes) {
+        if (dao.insertCollection(quotes) == 1)
+            return Response.status(Response.Status.CREATED).entity("Quotes created").build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    @Override
     public Response deleteQuote(int id) {
         if(dao.deleteQuote(id) == -1)
             return Response.status(Response.Status.NOT_FOUND).build();

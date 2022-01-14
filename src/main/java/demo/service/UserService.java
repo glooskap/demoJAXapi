@@ -67,6 +67,25 @@ public interface UserService {
     Response addQuote(@RequestBody(description = "String value to be added") String quote);
 
     /**
+     * POST request to add a collection of new quotes
+     * - consumes plain text
+     * - invoked at demo/quotes/new/collection
+     *
+     * @param quotes String '&'-separated values to be added
+     * @return status CREATED if completed, BAD REQUEST otherwise
+     */
+    @POST
+    @Path("new/collection")
+    @Consumes({MediaType.TEXT_PLAIN})
+    @Operation(summary = "POST request to add a collection of new quotes",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Quotes created"),
+                    @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+            }
+    )
+    Response addQuoteCollection(@RequestBody(description = "String '&'-separated values to be added ") String quotes);
+
+    /**
      * PUT request to update an existing quote
      * - consumes plain text
      * - invoked at demo/quotes/{id}

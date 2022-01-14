@@ -4,6 +4,8 @@ import demo.model.Quote;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.StringTokenizer;
 
 /**
  * establish mysql db connection
@@ -134,6 +136,44 @@ public class DataAccess {
 
         } catch (SQLException e) {
             System.out.println("catch insert");
+            e.printStackTrace();
+            return -1;
+        }
+        return 1;
+    }
+
+    /**
+     * transactional
+     * INSERT INTO QUOTES
+     * //ids are assigned by the database
+     * either the whole collection is stored or none of it
+     *
+     * @param quotes '&'-separated values to be inserted
+     * @return 1 if successful or -1 if something goes wrong
+     */
+    public int insertCollection(String quotes) {
+
+        StringTokenizer tokenizer = new StringTokenizer(quotes, "&");
+
+        try {
+            conn.setAutoCommit(false);
+
+            while (tokenizer.hasMoreTokens()) {
+                String quote = tokenizer.nextToken();
+                if (quote.length() < 10) throw new InputMismatchException();
+
+                PreparedStatement ps = conn.prepareStatement("insert into QUOTES (quote) values('" + quote + "');");
+                ps.executeUpdate();
+            }
+            conn.commit();
+
+        } catch (SQLException e) {
+            System.out.println("catch sql insert");
+            e.printStackTrace();
+            return -1;
+        }
+        catch (InputMismatchException e) {
+            System.out.println("catch input format insert");
             e.printStackTrace();
             return -1;
         }
