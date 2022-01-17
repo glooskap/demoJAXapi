@@ -25,6 +25,7 @@ public class AppConfig extends ResourceConfig {
 
         register(new LoggingFeature(Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 10000));
 
+        register(new CORSFilter());
         register(OpenApiResource.class);
 
         System.out.println("app configured");

@@ -17,7 +17,7 @@ public class UserServiceImplTest {
     private static DataAccess dao;
 
     @BeforeAll
-    static void setDao() {
+    static void setup() {
         dao = mock(DataAccess.class);
 
         service = new UserServiceImpl(dao);
@@ -56,6 +56,13 @@ public class UserServiceImplTest {
         doReturn(1).when(dao).insertQuote("new quote");
 
         assertEquals(201, service.addQuote("new quote").getStatus());
+    }
+
+    @Test
+    void addQuoteCollection() {
+        doReturn(1).when(dao).insertCollection("new collection");
+
+        assertEquals(201, service.addQuoteCollection("new collection").getStatus());
     }
 
     @Test

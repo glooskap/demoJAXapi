@@ -82,6 +82,7 @@ public interface UserService {
                     @ApiResponse(responseCode = "201", description = "Quotes created"),
                     @ApiResponse(responseCode = "400", description = "BAD REQUEST")
             }
+
     )
     Response addQuoteCollection(@RequestBody(description = "String '&'-separated values to be added ") String quotes);
 
