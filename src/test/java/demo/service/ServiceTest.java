@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-public class UserServiceImplTest {
+public class ServiceTest {
 
     private static UserServiceImpl service;
 

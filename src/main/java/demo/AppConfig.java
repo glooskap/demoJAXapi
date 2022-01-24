@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import jakarta.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
-
 import org.glassfish.jersey.logging.LoggingFeature;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +25,8 @@ public class AppConfig extends ResourceConfig {
         register(new LoggingFeature(Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 10000));
 
         register(new CORSFilter());
-        register(OpenApiResource.class);
 
-        System.out.println("app configured");
+        register(OpenApiResource.class);
 
     }
 

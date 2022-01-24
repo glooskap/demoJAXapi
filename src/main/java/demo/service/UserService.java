@@ -2,6 +2,8 @@ package demo.service;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.ws.rs.*;
@@ -12,7 +14,7 @@ public interface UserService {
 
     /**
      * GET request to read the whole collection of quotes
-     * - invoked at demo/quotes/read
+     * - invoked at demo/quotes/
      *
      * @return all quotes and status OK if completed, BAD REQUEST otherwise
      */
@@ -82,9 +84,10 @@ public interface UserService {
                     @ApiResponse(responseCode = "201", description = "Quotes created"),
                     @ApiResponse(responseCode = "400", description = "BAD REQUEST")
             }
-
     )
-    Response addQuoteCollection(@RequestBody(description = "String '&'-separated values to be added ") String quotes);
+    Response addQuoteCollection(@RequestBody(description = "String '&'-separated values to be added ",
+            content = @Content(examples = @ExampleObject("quote1 & quote2 & quote3 & ...")))
+                                        String quotes);
 
     /**
      * PUT request to update an existing quote
