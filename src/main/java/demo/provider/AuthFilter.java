@@ -1,4 +1,5 @@
 package demo.provider;
+import demo.Config;
 
 import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.PermitAll;
@@ -15,8 +16,6 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Base64;
-
-import demo.Config;
 
 public class AuthFilter implements ContainerRequestFilter {
 
@@ -49,12 +48,9 @@ public class AuthFilter implements ContainerRequestFilter {
             String base64Credentials = authorization.get(0).substring("Basic".length()).trim();
             byte[] credDecoded = Base64.getDecoder().decode(base64Credentials);
             String credentials = new String(credDecoded, StandardCharsets.UTF_8);
-            System.out.println(credentials);
 
             // credentials = username:password
             final String[] values = credentials.split(":", 2);
-            System.out.println(values[0]);
-            System.out.println(values[1]);
 
             if(method.isAnnotationPresent(RolesAllowed.class)) {
                 //RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
