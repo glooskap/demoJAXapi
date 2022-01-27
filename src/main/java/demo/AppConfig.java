@@ -1,5 +1,7 @@
 package demo;
 
+import demo.provider.AuthFilter;
+import demo.provider.CORSFilter;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -25,6 +27,8 @@ public class AppConfig extends ResourceConfig {
         register(new LoggingFeature(Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 10000));
 
         register(new CORSFilter());
+
+        register(new AuthFilter());
 
         register(OpenApiResource.class);
 

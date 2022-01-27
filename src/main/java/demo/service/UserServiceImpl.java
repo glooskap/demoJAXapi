@@ -1,9 +1,11 @@
 package demo.service;
 
 import demo.data.DataAccess;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
 
+@RolesAllowed("admin")
 @Path("quotes")
 public class UserServiceImpl implements UserService {
 

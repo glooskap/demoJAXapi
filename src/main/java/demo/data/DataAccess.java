@@ -1,5 +1,6 @@
 package demo.data;
 
+import demo.Config;
 import demo.model.Quote;
 
 import java.sql.*;
@@ -24,7 +25,7 @@ public class DataAccess {
             return;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); //register jdbc driver
-            conn = DriverManager.getConnection(Config.URL, Config.USER, Config.PASSWORD);
+            conn = DriverManager.getConnection(Config.URL, Config.DB_USER, Config.DB_PASSWORD);
             System.out.println("db connected");
         } catch (SQLException e) {
             System.out.println("catch connection init");
