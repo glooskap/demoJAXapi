@@ -1,3 +1,3 @@
 # demoJAXapi
 
-demo for a simple JAX-RS API
+demo for a simple JAX-RS app
