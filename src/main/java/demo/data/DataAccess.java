@@ -26,7 +26,6 @@ public class DataAccess {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); //register jdbc driver
             conn = DriverManager.getConnection(Config.URL, Config.DB_USER, Config.DB_PASSWORD);
-            System.out.println("db connected");
         } catch (SQLException e) {
             System.out.println("catch connection init");
             e.printStackTrace();
@@ -73,6 +72,7 @@ public class DataAccess {
             e.printStackTrace();
             return null;
         }
+        if (quotes.isEmpty()) return null;
         return quotes.toString();
     }
 
@@ -97,6 +97,7 @@ public class DataAccess {
         } catch (SQLException e) {
             System.out.println("catch select");
             e.printStackTrace();
+            return null;
         }
 
         return temp.toString();
@@ -110,6 +111,8 @@ public class DataAccess {
      * @return 1 if successful or -1 if something goes wrong
      */
     public int insertQuote(String quote) {
+        if (quote.isEmpty()) return -1;
+
         try {
             PreparedStatement ps = conn.prepareStatement("insert into QUOTES (quote) values('" + quote + "');");
             ps.executeUpdate();
@@ -130,10 +133,12 @@ public class DataAccess {
      * @return 1 if successful or -1 if something goes wrong
      */
     public int insertQuote(int id, String quote) {
-        try {
+        if (quote.isEmpty()) return 0;
 
+        try {
             PreparedStatement ps = conn.prepareStatement("insert into QUOTES (id, quote) values(" +id+ ",'" +quote+ "');");
-            ps.executeUpdate();
+
+            if (ps.executeUpdate() == 0) return 0;
 
         } catch (SQLException e) {
             System.out.println("catch insert");
@@ -189,9 +194,11 @@ public class DataAccess {
      * @return 1 if successful or -1 if something goes wrong
      */
     public int updateQuote(int id, String quote) {
+        if (quote.isEmpty()) return 0;
+
         try {
             PreparedStatement ps = conn.prepareStatement("update QUOTES set quote='" +quote+ "' where id='"+ id + "';");
-            ps.executeUpdate();
+            if (ps.executeUpdate() == 0) return 0;
 
         } catch (SQLException e) {
             System.out.println("catch update");
@@ -211,7 +218,6 @@ public class DataAccess {
         try {
             PreparedStatement ps = conn.prepareStatement("delete from QUOTES where id='" + id + "';");
             ps.executeUpdate();
-
         } catch (SQLException e) {
             System.out.println("catch delete");
             e.printStackTrace();

@@ -37,7 +37,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response updateQuote(String quote, int id) {
-        if(dao.updateQuote(id, quote) == -1)
+
+        int ans = dao.updateQuote(id, quote);
+
+        if( ans == 0)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        if( ans == -1)
             return Response.status(Response.Status.NOT_FOUND).build();
         return Response.status(Response.Status.OK).entity("Quote updated").build();
     }
