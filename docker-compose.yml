@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    restart: always
+    image: mysql
+    networks:
+      - jaxnet
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'r00t'
+      MYSQL_DATABASE: 'demo'
+    volumes:
+      - .\init-script.sql:/docker-entrypoint-initdb.d/init-script.sql
+      - .\persi:/var/lib/mysql
+      
+  tomcat:
+    restart: always
+    image: demojax
+    depends_on:
+      - mysql
+    networks:
+      - jaxnet
+    ports:
+      - "9000:8080"
+      
+networks:
+  jaxnet:
+    external: true
+    driver: bridge
