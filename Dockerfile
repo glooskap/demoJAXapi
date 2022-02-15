@@ -1,2 +1,2 @@
 FROM tomcat
-COPY api.war /usr/local/tomcat/webapps/
+COPY /target/api.war /usr/local/tomcat/webapps/
