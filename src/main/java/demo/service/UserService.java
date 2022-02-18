@@ -126,7 +126,7 @@ public interface UserService {
      */
     @DELETE
     @Path("{id}")
-    @Operation(summary = "DELETE request to delete a quote",
+    @Operation(summary = "DELETE request to delete a specific quote",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Quote deleted"),
                     @ApiResponse(responseCode = "404", description = "Quote not found")

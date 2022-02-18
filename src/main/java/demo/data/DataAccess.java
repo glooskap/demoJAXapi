@@ -9,7 +9,7 @@ import java.util.InputMismatchException;
 import java.util.StringTokenizer;
 
 /**
- * establish mysql db connection
+ * establish mysql connection
  * and execute queries
  */
 public class DataAccess {
@@ -40,7 +40,6 @@ public class DataAccess {
             return;
         try {
             conn.close();
-            System.out.println("db disconnected");
         } catch (SQLException e) {
             System.out.println("catch connection close");
             e.printStackTrace();

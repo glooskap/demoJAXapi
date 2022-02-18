@@ -5,16 +5,19 @@ import demo.provider.CORSFilter;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
-import jakarta.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.logging.LoggingFeature;
+import jakarta.ws.rs.ApplicationPath;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @OpenAPIDefinition(
         info =
                 @Info(
-                        title = "JAX-RS Jersey demo"
+                        title = "JAX-RS demo",
+                        description = "A JAX-RS running on a Jersey server.\n"
+                        + "Perform CRUD operations on a quotes database."
+                        , version = "1.0"
                 )
 )
 @ApplicationPath("/demo")

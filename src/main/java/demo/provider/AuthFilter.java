@@ -25,9 +25,11 @@ public class AuthFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws WebApplicationException {
 
+        if (requestContext.getUriInfo().getPath().endsWith("openapi.json")) return;
+
         Method method = resourceInfo.getResourceMethod();
 
-        if( ! method.isAnnotationPresent(PermitAll.class)) {
+        if( !method.isAnnotationPresent(PermitAll.class)) {
 
             if(method.isAnnotationPresent(DenyAll.class)) {
                 requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
@@ -55,7 +57,7 @@ public class AuthFilter implements ContainerRequestFilter {
             if(method.isAnnotationPresent(RolesAllowed.class)) {
                 //RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
 
-                if( ! isUserAllowed(values[0], values[1])) {
+                if( !isUserAllowed(values[0], values[1])) {
                     requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
                             .entity("You cannot access this resource").build());
                 }

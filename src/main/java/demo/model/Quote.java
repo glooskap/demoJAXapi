@@ -14,7 +14,6 @@ public class Quote {
 
     @JsonbProperty("quote")
     private String quote;
-    //private String author;
 
     public Quote(String quote, int id) {
         this.quote = quote;
