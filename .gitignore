@@ -1,15 +1,21 @@
 HELP.md
+test/
 target/
 resources/
-webapp/
 .mvn
 mvnw
 
-### IntelliJ IDEA ###
+### IntelliJ IDE ###
 .idea
 *.iws
 *.iml
 *.ipr
+
+### Eclipse ###
+.classpath
+.project
+.settings
+*.eml
 
 Config.*
 *.cmd

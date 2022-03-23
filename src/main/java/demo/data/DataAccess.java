@@ -1,49 +1,24 @@
 package demo.data;
 
-import demo.Config;
 import demo.model.Quote;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.StringTokenizer;
 
 /**
- * establish mysql connection
- * and execute queries
+ * establish mysql connection and execute queries
  */
 public class DataAccess {
 
     private static Connection conn;
 
     public DataAccess() {
-        init();
-    }
-
-    private void init() {
-        if (conn != null)
-            return;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //register jdbc driver
-            conn = DriverManager.getConnection(Config.URL, Config.DB_USER, Config.DB_PASSWORD);
-        } catch (SQLException e) {
-            System.out.println("catch connection init");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("catch jdbc driver");
-            e.printStackTrace();
-        }
-    }
-
-    private void close() {
-        if (conn == null)
-            return;
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            System.out.println("catch connection close");
-            e.printStackTrace();
-        }
+        conn = DbConnection.getConnection();
     }
 
     /**
@@ -103,14 +78,13 @@ public class DataAccess {
     }
 
     /**
-     * INSERT INTO QUOTES
+     * INSERT INTO QUOTES <br>
      * //id is assigned by the database
      *
      * @param quote value to be inserted
      * @return 1 if successful or -1 if something goes wrong
      */
     public int insertQuote(String quote) {
-        if (quote.isEmpty()) return -1;
 
         try {
             PreparedStatement ps = conn.prepareStatement("insert into QUOTES (quote) values('" + quote + "');");
@@ -132,7 +106,6 @@ public class DataAccess {
      * @return 1 if successful or -1 if something goes wrong
      */
     public int insertQuote(int id, String quote) {
-        if (quote.isEmpty()) return 0;
 
         try {
             PreparedStatement ps = conn.prepareStatement("insert into QUOTES (id, quote) values(" +id+ ",'" +quote+ "');");
@@ -148,9 +121,9 @@ public class DataAccess {
     }
 
     /**
-     * transactional
-     * INSERT INTO QUOTES
-     * //ids are assigned by the database
+     * *transactional* <br>
+     * INSERT INTO QUOTES <br>
+     * //ids are assigned by the database <br>
      * either the whole collection is stored or none of it
      *
      * @param quotes '&'-separated values to be inserted
@@ -193,7 +166,6 @@ public class DataAccess {
      * @return 1 if successful or -1 if something goes wrong
      */
     public int updateQuote(int id, String quote) {
-        if (quote.isEmpty()) return 0;
 
         try {
             PreparedStatement ps = conn.prepareStatement("update QUOTES set quote='" +quote+ "' where id='"+ id + "';");
@@ -225,15 +197,38 @@ public class DataAccess {
         return 1;
     }
 
+    /**
+     * LOAD DATA INFILE <br>
+     * INTO TABLE QUOTES
+     *
+     * @param path of the file
+     * @return 1 if successful or -1 if something goes wrong
+     */
+    public int loadFile(String path) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("LOAD DATA INFILE '" + path +
+                    "' INTO TABLE QUOTES FIELDS TERMINATED BY ','" +
+                    "ENCLOSED BY '\"'" +
+                    "LINES TERMINATED BY '\\n'" +
+                    "IGNORE 1 ROWS;");
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("catch upload");
+            e.printStackTrace();
+            return -1;
+        }
+        return 1;
+    }
+
     public void cleanup() {
         try {
-            PreparedStatement ps = conn.prepareStatement("delete from QUOTES where id<>2;");
+            PreparedStatement ps = conn.prepareStatement("delete from QUOTES");
             ps.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println("catch cleanup");
             e.printStackTrace();
         }
-        close();
+        DbConnection.disconnect();
     }
 }
