@@ -27,7 +27,7 @@ public class Controller {
 	}
 	
 	/**
-     * GET request to read the whole collection of quotes
+     * GET request to read the whole collection of quotes <br>
      * - invoked at demo/quotes/
      *
      * @return all quotes and status OK if completed, BAD REQUEST otherwise
@@ -48,7 +48,7 @@ public class Controller {
     }
 
     /**
-     * GET request to read a specific quote
+     * GET request to read a specific quote <br>
      * - invoked at demo/quotes/{id}
      *
      * @param id to specify the quote
@@ -75,8 +75,8 @@ public class Controller {
     }
 
     /**
-     * POST request to add a new quote
-     * - consumes plain text
+     * POST request to add a new quote <br>
+     * - consumes plain text <br>
      * - invoked at demo/quotes/new
      *
      * @param quote String value to be added
@@ -101,8 +101,8 @@ public class Controller {
     }
 
     /**
-     * POST request to add a collection of new quotes
-     * - consumes plain text
+     * POST request to add a collection of new quotes <br>
+     * - consumes plain text <br>
      * - invoked at demo/quotes/new/collection
      *
      * @param quotes String '&'-separated values to be added
@@ -128,8 +128,8 @@ public class Controller {
     }
 
     /**
-     * PUT request to update an existing quote
-     * - consumes plain text
+     * PUT request to update an existing quote <br>
+     * - consumes plain text <br>
      * - invoked at demo/quotes/{id}
      *
      * @param id to specify the quote
@@ -162,7 +162,7 @@ public class Controller {
     }
 
     /**
-     * DELETE request to delete a quote
+     * DELETE request to delete a quote <br>
      * - invoked at demo/quotes/{id}
      *
      * @param id to specify the quote
@@ -187,7 +187,8 @@ public class Controller {
     }
 
     /**
-     * POST request to upload a file
+     * POST request to upload a file <br>
+     * - invoked at demo/quotes/upload
      *
      * @param file to be uploaded
      * @return status CREATED if completed, BAD REQUEST otherwise
