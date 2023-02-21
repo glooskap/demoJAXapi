@@ -13,7 +13,7 @@ public class DbConnection {
     protected static Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); //register jdbc driver
-            conn = DriverManager.getConnection(Config.URL, Config.DB_USER, Config.DB_PASSWORD);
+            conn = DriverManager.getConnection(Config.DB_URL, Config.DB_USER, Config.DB_PASSWORD);
             return conn;
         } catch (SQLException e) {
             System.out.println("catch connection init");

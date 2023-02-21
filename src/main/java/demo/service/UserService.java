@@ -33,6 +33,11 @@ public class UserService{
         return dao.updateQuote(id, quote);
     }
 
+    public int addQuote(String quote, int id) {
+        if (!getQuote(id).isEmpty()) return -1;
+        if (quote==null || quote.isEmpty()) return 0;
+        return dao.insertQuote(id, quote);
+    }
     public int addQuote(String quote) {
         if (quote==null || quote.isEmpty()) return 0;
         return dao.insertQuote(quote);

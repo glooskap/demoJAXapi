@@ -21,9 +21,13 @@ import java.io.InputStream;
 public class Controller {
 
 	private UserService service;
-	
-	public Controller() {
-		service = new UserService();
+
+    public Controller() {
+        this.service = new UserService();
+    }
+
+	public Controller(UserService service) {
+		this.service = service;
 	}
 	
 	/**
@@ -85,7 +89,7 @@ public class Controller {
     @POST
     @Path("new")
     @Consumes(MediaType.TEXT_PLAIN)
-    @Operation(summary = "POST a new quote",
+    @Operation(summary = "POST a new quote without id",
             responses = {
                     @ApiResponse(responseCode = "201", description = "Quote created"),
                     @ApiResponse(responseCode = "400", description = "BAD REQUEST")
@@ -98,6 +102,27 @@ public class Controller {
         if (service.addQuote(quote) == 1)
             return Response.status(Response.Status.CREATED).entity("Quote created").build();
         return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    @POST
+    @Path("new")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Operation(summary = "POST a new quote",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Quote created"),
+                    @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+            }
+    )
+    public Response createQuote(
+            @RequestBody(description = "String value to be added to the specified id(must not already exist)")
+            int id, String quote)
+    {
+        if (service.addQuote(quote, id) == 1)
+            return Response.status(Response.Status.CREATED).entity("Quote created").build();
+        else if (service.addQuote(quote, id) == -1)
+            return Response.status(Response.Status.BAD_REQUEST).entity("A quote with this id already exists. Use UPDATE if you wish to change it.").build();
+        else
+            return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     /**
@@ -123,7 +148,7 @@ public class Controller {
     String quotes)
     {
         if (service.addQuoteCollection(quotes) == 1)
-            return Response.status(Response.Status.CREATED).entity("Quotes created").build();
+            return Response.status(Response.Status.CREATED).entity("Quote(s) created").build();
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
@@ -188,17 +213,17 @@ public class Controller {
 
     /**
      * POST request to upload a file <br>
-     * - invoked at demo/quotes/upload
+     * - invoked at demo/quotes/new/upload
      *
      * @param file to be uploaded
      * @return status CREATED if completed, BAD REQUEST otherwise
      */
     @POST
-    @Path("upload")
+    @Path("new/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Operation(summary = "POST a file",
             responses = {
-                    @ApiResponse(responseCode = "201", description = "Quotes uploaded"),
+                    @ApiResponse(responseCode = "201", description = "Quote(s) uploaded"),
                     @ApiResponse(responseCode = "400", description = "BAD REQUEST")
             }
     )
